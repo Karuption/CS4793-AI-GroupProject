@@ -6,7 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+#dataset
+*.csv
+
 # Distribution / packaging
+learn/
 .Python
 build/
 develop-eggs/
