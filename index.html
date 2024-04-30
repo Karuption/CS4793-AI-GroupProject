@@ -46,6 +46,7 @@
     </style>
 
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/sse.js"></script>
 </head>
 
 <body class="background text-white-50">
@@ -54,27 +55,28 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
+
                         <h5 class="card-title d-flex justify-content-center">Tweet Generation</h5>
-                        <form id="myForm text-white-50" hx-post="/RAG" hx-swap="outerHTML" hx-indicator="#loading"
-                            hx-target="#generatedText">
+
+                        <form id="myForm text-white-50" hx-post="/ragRequest" hx-swap="outerHTML"
+                            hx-indicator="#loading" hx-target="#generatedText">
+
                             <div class="form-group">
                                 <label for="articleTextbox"></label>
                                 <input type="text" class="form-control input-bg" name="articleTextbox"
                                     id="articleTextboxFocus" placeholder="Enter Article URL" autofocus>
                             </div>
-                            <div id="generatedText"> </div>
 
-                            <div class="pb-2 htmx-indicator" id="loading">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                                Loading...
-                            </div>
-
-                            <div class="pt-2">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                            <div>
+                                <button type="submit" class="btn btn-primary d-flex align-items-center">
+                                    <div>Submit</div>
+                                    <div class="p-0 pl-2 m-0 pb-1 htmx-indicator" id="loading">
+                                        <span class="spinner-border spinner-border-sm p-0 m-0"></span>
+                                    </div>
+                                </button>
                             </div>
                         </form>
+                        <div class="px-1 pt-2 pb-0" id="generatedText"></div>
                     </div>
                 </div>
             </div>
