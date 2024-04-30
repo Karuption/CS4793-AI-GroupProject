@@ -12,12 +12,6 @@ def get_article(link: str) -> Document:
     article = NewsArticleReader(html_to_text=True).load_data([article_link])
     return article[0]
 
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1000, 
-    chunk_overlap=0,
-)
-
 from langchain_chroma import Chroma
 from langchain_community.embeddings.ollama import OllamaEmbeddings
 
@@ -72,15 +66,28 @@ rag_chain = (
     | StrOutputParser()
 )
 
-from flask import Flask
+from flask import Flask, send_file, request
 
 app = Flask("RAG")
 
-@app.route('/<path:article_link>', methods = ['POST'])
-async def tweet_generator(article_link):
+@app.route('/', methods = ['GET'])
+async def index():
+    return send_file('index.html')    
+
+
+import time
+@app.route('/RAG', methods = ['POST'])
+async def tweet_generator():
+    time.sleep(1)
+    return """
+    <div class="form-group">
+        <textarea class="form-control input-bg" id="generatedText" rows="5" tabindex="-1"
+            readonly>{auhetasuhetansh}</textarea>
+    </div>"""
+    article_link = request.form.get('articleTextbox')
     print("scraping article at " + article_link)
     article = get_article(article_link)
     print("Sending sending to rag chain")
     return await rag_chain.ainvoke(article.metadata['summary'])
-
+    
 app.run(debug=True)
